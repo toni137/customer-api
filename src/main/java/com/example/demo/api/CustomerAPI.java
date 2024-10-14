@@ -1,6 +1,7 @@
 package com.example.demo.api;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +23,8 @@ public class CustomerAPI {
         return repo.findAll();
     }
 
-   /* @GetMapping("/{customerId}")
-    public Customer getCustomerById(@PathVariable("customerId") long id) {
-        for(int i = 0; i < customerList.size(); i++) {
-            if(customerList.get(i).getId() == id) {
-                return customerList.get(i);
-            }
-        }
-        return null;
-    }
- */    
+    @GetMapping("/{id}")
+    public Optional<Customer> getCustomerById(@PathVariable("id") long id) {
+        return repo.findById(id);
+    }   
 }
