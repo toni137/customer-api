@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,7 +50,6 @@ public class CustomerTests {
     public void testPost() {
 
         Customer customer = new Customer();
-        customer.setId(101);
         customer.setName("Test");
         customer.setEmail("test@test.com");
         customer.setPassword("password");
@@ -80,6 +80,14 @@ public class CustomerTests {
         customer = template.getForObject(path, Customer.class );
 
         assertEquals(newValue, customer.getName());
+    }
+
+    @Test
+    //@Disabled
+    public void testDelete(){
+
+        
+
     }
 
 }
