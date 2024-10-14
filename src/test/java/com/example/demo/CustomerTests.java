@@ -64,4 +64,22 @@ public class CustomerTests {
         assertEquals("test@test.com", customer.getEmail());
         assertEquals("password", customer.getPassword());
     }
+
+    @Test
+    //@Disabled
+    public void testPut() {
+
+        String path = "/customers/2";
+        String newValue = "NewValue" + Math.random();
+
+        Customer customer = template.getForObject(path, Customer.class );
+
+        customer.setName(newValue);
+        template.put(path, customer);
+
+        customer = template.getForObject(path, Customer.class );
+
+        assertEquals(newValue, customer.getName());
+    }
+
 }

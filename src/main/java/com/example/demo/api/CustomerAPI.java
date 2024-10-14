@@ -1,7 +1,6 @@
 package com.example.demo.api;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +49,16 @@ public class CustomerAPI {
 
         return ResponseEntity.created(location).build();
 
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") long id) {
+        //validate input
+        if(customer.getId() != id || customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        repo.save(customer);
+        return ResponseEntity.ok().build();
     }
 }
