@@ -68,7 +68,7 @@ public class CustomerAPI {
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") long id){
         try{
             repo.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e){ //if id is null catch exception
             return ResponseEntity.badRequest().build();
         }
