@@ -36,7 +36,7 @@ public class CustomerAPI {
     @PostMapping 
     public ResponseEntity<?> addCustomer(@RequestBody Customer newCustomer){
         //Validate input
-        if(newCustomer.getId() < 0 || newCustomer.getName() == null || newCustomer.getEmail() == null || newCustomer.getPassword() == null) {
+        if(newCustomer.getName() == null || newCustomer.getEmail() == null || newCustomer.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
         newCustomer = repo.save(newCustomer);
