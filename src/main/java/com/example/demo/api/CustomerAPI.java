@@ -18,7 +18,7 @@ public class CustomerAPI {
    @Autowired CustomerRepository repo;
 
     @GetMapping
-    public Iterable<Customer> getAllCustomer(){
+    public Iterable<Customer> getAllCustomers(){
         return repo.findAll();
     }
 
