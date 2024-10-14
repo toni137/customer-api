@@ -1,18 +1,18 @@
 package com.example.demo.domain;
 
-public class Customer {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name="CUSTOMERS")
+public class Customer {
+    @Id
     long id;
     String name;
     String email;
     String password;
 
-    public Customer(long id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
     public long getId() {
         return id;
     }
