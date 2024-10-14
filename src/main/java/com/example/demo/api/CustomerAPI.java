@@ -1,6 +1,9 @@
 package com.example.demo.api;
 
+import java.util.ArrayList;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +13,39 @@ import com.example.demo.domain.Customer;
 @RequestMapping("/customers")
 public class CustomerAPI {
 
-    @GetMapping
-    public Customer getCustomer(){
-        Customer customer = new Customer();
-        customer.setId(1);
-        customer.setName("John");
-        customer.setEmail("test@test.com");
-        customer.setPassword("password");
+    ArrayList<Customer> customerList = new ArrayList<Customer>();
+
+    public CustomerAPI(){
+        Customer customer1 = new Customer();
+        customer1.setId(1);
+        customer1.setName("John");
+        customer1.setEmail("test@test.com");
+        customer1.setPassword("password");
         
-        return customer;
+        customerList.add(customer1);
+
+        Customer customer2 = new Customer();
+        customer2.setId(2);
+        customer2.setName("Ann");
+        customer2.setEmail("email@test.com");
+        customer2.setPassword("admin");
+
+        customerList.add(customer2);
+    }
+
+    @GetMapping
+    public ArrayList<Customer> getAllCustomer(){
+        return customerList;
+    }
+
+    @GetMapping("/{customerId}")
+    public Customer getCustomerById(@PathVariable("customerId") long id) {
+        for(int i = 0; i < customerList.size(); i++) {
+            if(customerList.get(i).getId() == id) {
+                return customerList.get(i);
+            }
+        }
+        return null;
     }
     
 }
