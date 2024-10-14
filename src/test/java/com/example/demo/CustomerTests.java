@@ -1,8 +1,10 @@
 package com.example.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +42,26 @@ public class CustomerTests {
 
         assertNotNull(customer);
         assertNotNull(customer.getId());
+    }
+
+    @Test
+    //@Disabled
+    public void testPost() {
+
+        Customer customer = new Customer();
+        customer.setId(101);
+        customer.setName("Test");
+        customer.setEmail("test@test.com");
+        customer.setPassword("password");
+
+        URI location = template.postForLocation("/customers", customer, Customer.class);
+        assertNotNull(location);
+
+        customer = template.getForObject(location, Customer.class);
+        assertNotNull(customer);
+        assertNotNull(customer.getId());
+        assertEquals("Test", customer.getName());
+        assertEquals("test@test.com", customer.getEmail());
+        assertEquals("password", customer.getPassword());
     }
 }
