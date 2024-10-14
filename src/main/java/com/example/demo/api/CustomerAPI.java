@@ -16,20 +16,10 @@ public class CustomerAPI {
     ArrayList<Customer> customerList = new ArrayList<Customer>();
 
     public CustomerAPI(){
-        Customer customer1 = new Customer();
-        customer1.setId(1);
-        customer1.setName("John");
-        customer1.setEmail("test@test.com");
-        customer1.setPassword("password");
-        
+        Customer customer1 = new Customer(1,"John","test@test.com","password");        
         customerList.add(customer1);
 
-        Customer customer2 = new Customer();
-        customer2.setId(2);
-        customer2.setName("Ann");
-        customer2.setEmail("email@test.com");
-        customer2.setPassword("admin");
-
+        Customer customer2 = new Customer(2,"Ann","email@test.com","admin");
         customerList.add(customer2);
     }
 
