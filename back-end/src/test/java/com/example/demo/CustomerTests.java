@@ -51,9 +51,20 @@ public class CustomerTests {
 
     @Test
     //@Disabled
+    public void testGetByName() {
+
+        Customer customer = 
+            template.getForObject("/customer/byname/{username}", Customer.class, 1);
+
+        assertNotNull(customer);
+        assertNotNull(customer.getId());
+    }
+
+    @Test
+    //@Disabled
     public void testPost() {
 
-        Customer customer = new Customer();
+        Customer customer = new Customer(); 
         customer.setName("Test");
         customer.setEmail("test@test.com");
         customer.setPassword("password");
@@ -68,6 +79,7 @@ public class CustomerTests {
         assertEquals("test@test.com", customer.getEmail());
         assertEquals("password", customer.getPassword());
     }
+
 
     @Test
     //@Disabled
