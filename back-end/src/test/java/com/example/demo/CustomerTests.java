@@ -5,25 +5,51 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import com.example.demo.domain.Customer;
+import com.example.demo.repository.CustomerRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CustomerTests {
 
     @Autowired TestRestTemplate template;
 
+    @MockBean
+    private CustomerRepository repo;
+
+    @Test
+    public void testPostByName() {
+        Customer customer = new Customer();
+        customer.setName("test");
+
+        Mockito.when(repo.findAll()).thenReturn(Collections.singletonList(customer));
+
+        ResponseEntity<Customer> response = template.postForEntity("/customers/byname", "test", Customer.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("test", response.getBody().getName());
+    
+    }
     
     @Test
     //@Disabled
