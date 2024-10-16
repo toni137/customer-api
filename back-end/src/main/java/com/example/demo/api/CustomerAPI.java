@@ -1,10 +1,12 @@
 package com.example.demo.api;
 
 import java.net.URI;
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.domain.Customer;
 import com.example.demo.repository.CustomerRepository;
@@ -64,6 +67,37 @@ public class CustomerAPI {
         repo.save(customer);
         return ResponseEntity.ok().build();
     }
+
+    	//lookupCustomerByName POST
+	@PostMapping("/byname")
+	public ResponseEntity<?> lookupCustomerByNamePost(@RequestBody String username, UriComponentsBuilder uri) {
+		Iterator<Customer> customers = repo.findAll().iterator();
+		while(customers.hasNext()) {
+			Customer cust = customers.next();
+			if(cust.getName().equals(username)) {
+				ResponseEntity<?> response = ResponseEntity.ok(cust);
+				return response;				
+			}			
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	}
+
+    //lookupCustomerByName GET
+	@GetMapping("/byname/{username}")
+	public ResponseEntity<?> lookupCustomerByNameGet(@PathVariable("username") String username,
+			UriComponentsBuilder uri) {
+				
+		Iterator<Customer> customers = repo.findAll().iterator();
+		while(customers.hasNext()) {
+			Customer cust = customers.next();
+			if(cust.getName().equalsIgnoreCase(username)) {
+				ResponseEntity<?> response = ResponseEntity.ok(cust);
+				return response;				
+			}			
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	}
+	
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") long id){
